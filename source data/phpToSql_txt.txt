@@ -1,0 +1,40 @@
+
+<?php
+//fill with information from html
+$previousHeartFailure = $_GET[“previousHeartFailure”];
+$e_GFR = $_GET[“eGFR”];
+
+//populate arrays - current medication and max dosage possible 2d array?
+$currentMedication = array();
+$maxDosage = array();
+$InvalidMedication = array();
+
+$sql = "SELECT DRUG_GROUPS.group_name etc FROM DRUG_GROUPS INNER JOIN DRUG_PROPERTIES ON DRUG_GROUPS.group_name=DRUG_PROPERTIES.group_name";
+$sq1_1 = "";
+$i;
+
+if $previousHeartFailure == "true" {
+	sql_1 = sql_1 . " WHERE CVD_rating <= 2 AND";
+}
+
+if $e_GFR < "60"{
+	sql_1 = sql_1 . " WHERE e_GFR >= eGFR_contraindicated_cutoff AND";
+}
+
+//work out iterations through array
+for ($i = 0; $i < $currentMedications.size; $i++){
+	if $maxDosage[$i] = true{
+		sql_1 = sql_1 . " WHERE generic_name NOT LIKE %" . $currentMedication[$i] . "% AND";
+	}
+	sql_1 = sql_1 . " WHERE group_name NOT LIKE illegal_combination AND";
+}
+
+//work out iterations through array
+for ($i = 0; $i < InvalidMedicationsArray.size; $i++){
+	sql_1 = sql_1 . " WHERE generic_name NOT LIKE %" . $InvalidMedication[$i] . "% AND";
+}
+
+sql_1 = sql_1 . “ 1=1”;
+
+sql = sql . sql_1 . " WHERE priority = (SELECT min(priority) FROM DRUG_PROPERTIES" . $sql_1 . “;”;
+/?php>

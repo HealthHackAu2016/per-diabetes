@@ -1,0 +1,88 @@
+-- MySQL dump 10.13  Distrib 5.6.33, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: HEALTHHACK_GP
+-- ------------------------------------------------------
+-- Server version	5.6.33-0ubuntu0.14.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `DRUG_GROUPS`
+--
+
+DROP TABLE IF EXISTS `DRUG_GROUPS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DRUG_GROUPS` (
+  `group_name` varchar(255) NOT NULL,
+  `illegal_combination` varchar(255) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  PRIMARY KEY (`group_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DRUG_GROUPS`
+--
+
+LOCK TABLES `DRUG_GROUPS` WRITE;
+/*!40000 ALTER TABLE `DRUG_GROUPS` DISABLE KEYS */;
+INSERT INTO `DRUG_GROUPS` VALUES ('Alpha-glucosidase inhibitor',NULL,6),('Biguanide',NULL,0),('DPP-4 inhibitor','Don\'t use with a GLP',2),('GLP1 analogue','Don\'t use with a DPP-4',4),('Insulin',NULL,5),('SGLT2 inhibitor',NULL,3),('Sulphonylurea',NULL,1),('Thiazolidinedione',NULL,7);
+/*!40000 ALTER TABLE `DRUG_GROUPS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DRUG_PROPERTIES`
+--
+
+DROP TABLE IF EXISTS `DRUG_PROPERTIES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DRUG_PROPERTIES` (
+  `generic_name` varchar(255) NOT NULL,
+  `group_name` varchar(255) NOT NULL,
+  `CVD_rating` int(11) NOT NULL,
+  `CVD_notes` varchar(255) DEFAULT NULL,
+  `eGFR_contraindicated_cutoff` int(11) DEFAULT NULL,
+  `eGFR_30_60_notes` varchar(255) DEFAULT NULL,
+  `eGFR_30_notes` varchar(255) DEFAULT NULL,
+  `bowel_condition` tinyint(1) DEFAULT NULL,
+  `hypo_note` varchar(255) DEFAULT NULL,
+  `weightEffect` int(11) DEFAULT NULL,
+  `general_note_positive` varchar(255) DEFAULT NULL,
+  `general_note_negative` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`generic_name`),
+  KEY `fk_groupname` (`group_name`),
+  CONSTRAINT `fk_groupname` FOREIGN KEY (`group_name`) REFERENCES `DRUG_GROUPS` (`group_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DRUG_PROPERTIES`
+--
+
+LOCK TABLES `DRUG_PROPERTIES` WRITE;
+/*!40000 ALTER TABLE `DRUG_PROPERTIES` DISABLE KEYS */;
+INSERT INTO `DRUG_PROPERTIES` VALUES ('acarbose','Alpha-glucosidase inhibitor',1,NULL,30,NULL,'contraindicated',1,NULL,1,NULL,NULL),('alogliptin','DPP-4 inhibitor',1,NULL,0,'reduce dose','reduce dose',0,NULL,1,NULL,NULL),('canagliflozin','SGLT2 inhibitor',1,NULL,45,NULL,'contraindicated',0,NULL,0,'positive impact on BP','increase risk of UTIs'),('dapaglifozin','SGLT2 inhibitor',1,NULL,60,NULL,'contraindicated',0,NULL,0,'positive impact on BP','increase risk of UTIs'),('empagliflozin','SGLT2 inhibitor',0,NULL,45,NULL,'contraindicated',0,NULL,0,'positive impact on BP','increase risk of UTIs'),('exenatide','GLP1 analogue',1,NULL,30,NULL,'contraindicated',1,NULL,0,NULL,NULL),('glibenclamide','Sulphonylurea',1,'increased risk as monotherapy',0,NULL,'increases risk of hypoglycemia',0,'hypoglycemia risk',2,NULL,NULL),('gliclazide','Sulphonylurea',1,'increased risk as monotherapy',0,NULL,'increases risk of hypoglycemia',0,'lowest hypoglycemia risk',1,NULL,NULL),('glimepiride','Sulphonylurea',1,'increased risk as monotherapy',0,NULL,'increases risk of hypoglycemia',0,'hypoglycemia risk',2,NULL,NULL),('glipizide','Sulphonylurea',1,'increased risk as monotherapy',0,NULL,'increases risk of hypoglycemia',0,'hypoglycemia risk',2,NULL,NULL),('insulin','Insulin',1,NULL,0,NULL,'hypoglycemia risk increases',0,NULL,2,NULL,NULL),('linagliptin','DPP-4 inhibitor',1,NULL,0,'reduce dose',NULL,0,NULL,1,NULL,NULL),('liraglutide','GLP1 analogue',0,NULL,30,NULL,'contraindicated',1,NULL,0,NULL,NULL),('metformin','Biguanide',1,NULL,30,'reduce dose','contraindicated',1,NULL,1,NULL,NULL),('pioglitazone','Thiazolidinedione',3,NULL,0,NULL,NULL,0,NULL,2,NULL,'increased risk of fractures (women) and bladder cancer'),('rosiglitazone','Thiazolidinedione',3,NULL,0,NULL,NULL,0,NULL,2,NULL,NULL),('saxagliptin','DPP-4 inhibitor',2,'may increase heart failure',0,'reduce dose','reduce dose',0,NULL,1,NULL,NULL),('sitagliptin','DPP-4 inhibitor',1,NULL,0,'reduce dose','reduce dose',0,NULL,1,NULL,NULL),('slow release gliclazide','Sulphonylurea',1,'increased risk as monotherapy',0,NULL,'increases risk of hypoglycemia',0,'hypoglycemia risk',2,NULL,NULL),('slow release metformin','Biguanide',1,NULL,30,'reduce dose','contraindicated',1,NULL,1,NULL,NULL),('vildagliptin','DPP-4 inhibitor',1,NULL,0,'reduce dose','reduce dose',0,NULL,1,NULL,NULL);
+/*!40000 ALTER TABLE `DRUG_PROPERTIES` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-10-16  6:30:21

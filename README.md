@@ -1,2 +1,2 @@
 # per-diabetes
-git test
+A tool to advise GPs on Diabetic Drug Prescriptions.
